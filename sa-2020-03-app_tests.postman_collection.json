@@ -1,0 +1,253 @@
+{
+	"info": {
+		"_postman_id": "87d09f9e-e921-4860-bcdb-b2aa4b81215a",
+		"name": "sa-2020-03-app_tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0e49eaed-12a7-45f9-9e0e-ae82517a45c2",
+						"exec": [
+							"var responseJson = JSON.parse(responseBody)",
+							"pm.collectionVariables.set(\"user_id\", responseJson[\"id\"])"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Username\": \"Andrey\",\n\t\"FirstName\": \"test2\",\n\t\"LastName\": \"test3\",\n\t\"Email\" : \"124@e221\",\n\t\"Phone\" : \"1244\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{base_url}}/otusapp/api/v1/user",
+					"protocol": "http",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"otusapp",
+						"api",
+						"v1",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Username\": \"test\",\n\t\"FirstName\": \"test2\",\n\t\"LastName\": \"test3\",\n\t\"Email\" : \"124@e221\",\n\t\"Phone\" : \"1244\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{base_url}}/otusapp/api/v1/user/{{user_id}}",
+					"protocol": "http",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"otusapp",
+						"api",
+						"v1",
+						"user",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Username\": \"Andrey_new\",\n\t\"FirstName\": \"test2\",\n\t\"LastName\": \"test3\",\n\t\"Email\" : \"124@e221\",\n\t\"Phone\" : \"1244\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{base_url}}/otusapp/api/v1/user/{{user_id}}",
+					"protocol": "http",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"otusapp",
+						"api",
+						"v1",
+						"user",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get updated user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Username\": \"test\",\n\t\"FirstName\": \"test2\",\n\t\"LastName\": \"test3\",\n\t\"Email\" : \"124@e221\",\n\t\"Phone\" : \"1244\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{base_url}}/otusapp/api/v1/user/{{user_id}}",
+					"protocol": "http",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"otusapp",
+						"api",
+						"v1",
+						"user",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Username\": \"test\",\n\t\"FirstName\": \"test2\",\n\t\"LastName\": \"test3\",\n\t\"Email\" : \"124@e221\",\n\t\"Phone\" : \"1244\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{base_url}}/otusapp/api/v1/user/{{user_id}}",
+					"protocol": "http",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"otusapp",
+						"api",
+						"v1",
+						"user",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get deleted user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Username\": \"test\",\n\t\"FirstName\": \"test2\",\n\t\"LastName\": \"test3\",\n\t\"Email\" : \"124@e221\",\n\t\"Phone\" : \"1244\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{base_url}}/otusapp/api/v1/user/{{user_id}}",
+					"protocol": "http",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"otusapp",
+						"api",
+						"v1",
+						"user",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "6f557da8-60d9-470a-8cff-726b1c66753b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "63063a15-10b3-4770-b83f-20307c927d19",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "dbb023df-1886-4181-b55f-41713aaf01c1",
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "0a9c5bdd-3338-49e9-b4f2-a121ce2dd9a4",
+			"key": "base_url",
+			"value": "arch.homework",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

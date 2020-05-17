@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}"
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name:  {{ include "kube-dz02-helm.fullname" . }}-init-db
+      labels:
+        app: {{ include "kube-dz02-helm.fullname" . }}-init-db
+    spec:
+      initContainers:
+      - name: check-db
+        image: "alpine:latest"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command:
+        - sh
+        - "-c"
+        - |
+          apk add postgresql-client && until pg_isready -h {{ .Release.Name }}-postgresql -p {{ .Values.postgresql.service.port | quote }}; do echo waiting for database; sleep 2; done;
+      containers:
+      - image: "docker.io/bitnami/postgresql:11"
+        name: init-db
+        command: [ "bin/sh", "-c", "psql -h $POSTGRESQL_HOST -U $POSTGRESQL_USERNAME -d $POSTGRESQL_DATABASE -a -c 'create table if not exists USERS(ID SERIAL PRIMARY KEY, USERNAME VARCHAR(255), FIRSTNAME VARCHAR(255), LASTNAME VARCHAR(255), EMAIL VARCHAR(255), PHONE VARCHAR(255))'" ]
+        env:
+          - name: POSTGRESQL_HOST
+            value: {{ .Release.Name }}-postgresql
+          - name: POSTGRESQL_USERNAME
+            valueFrom:
+              configMapKeyRef:
+                key: username
+                name: {{ include "kube-dz02-helm.fullname" . }}-configmap       
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-postgresql
+                key: postgresql-password
+          - name: POSTGRESQL_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                key: POSTGRES_DB
+                name: {{ include "kube-dz02-helm.fullname" . }}-configmap        
+      restartPolicy: Never 
